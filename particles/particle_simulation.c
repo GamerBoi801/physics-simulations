@@ -43,5 +43,31 @@ Vector2 ComputeForce(Particle *particle) {
     // -ive sign with 9.81 indicates that the weight is acting downwards
 }
 void RunSimulation() {
+    float totalSimulationTime = 10; // simulation will run for 10secs
+    float CurrentTime = 0; // current time && accumulates the time has passed
+    float dt = 1; // each step takes one step
+    
+    while (CurrentTime < totalSimulationTime) {
+        
+        for (int i = 0;i < NUM_PARTICLES; i++) {
+            Particle *particle = &particles[i];
+            //calculates the force'mass
+            Vector2 force = ComputeForce(particle);
+            // acceleration = force /mass using newtons second law 
+            // F = m * a => a = F / m
+            Vector2 acceleration = (Vector2){force.x / particle->mass, force.y / particle->mass};
+            
+            // update the velocity
+            particle-> velocity.x += acceleration.x * dt;
+            particle-> velocity.y += acceleration.y * dt;
+
+            particle->position.x += particle->velocity.x * dt;
+            particle->position.y += particle->velocity.y * dt;
+
+        }
+    }
+    
+    print_particles();
+    CurrentTime += dt;
     
 }
